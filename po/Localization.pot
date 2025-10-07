@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pxls\n"
-"POT-Creation-Date: 2024-09-07T20:42:20.086Z\n"
+"POT-Creation-Date: 2025-08-03T22:45:06.512Z\n"
 "Language: \n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
@@ -1255,7 +1255,7 @@ msgid "How do I make a template?"
 msgstr ""
 
 #: /views/partials/faq.handlebars
-msgid "A template is an image link that is posted in the template textbox in the settings panel so you can place over it on the canvas. You may use a regular image link to your pixel art, but many people use 3rd party tools like <a href=\"https://charity.pxls.space\" target=\"_blank\">Charity</a> or <a href=\"https://discord.gg/5MVDCq53vC\" target=\"blank\">Clueless</a> to turn pixel art into a fancier link. If you need to make pixel art yourself, you can use <a href=\"https://www.piskelapp.com/p/create\" target=\"_blank\">Piskel</a> to create art to put into Charity or Clueless."
+msgid "A template is an image link that is posted in the template textbox in the settings panel so you can place over it on the canvas. You may use a regular image link to your pixel art, but many people use 3rd party tools like <a href=\"https://discord.gg/5MVDCq53vC\" target=\"blank\">Clueless</a> to turn pixel art into a fancier link. If you need to make pixel art yourself, you can use <a href=\"https://www.piskelapp.com/p/create\" target=\"_blank\">Piskel</a> to create art to put into Clueless."
 msgstr ""
 
 #: /views/partials/faq.handlebars
@@ -1497,10 +1497,6 @@ msgid "Generator, progress checker, and monitor for Pxls templates"
 msgstr ""
 
 #: /views/partials/info.handlebars
-msgid "Charity (templates, monitors, etc.)"
-msgstr ""
-
-#: /views/partials/info.handlebars
 #: /views/partials/info.handlebars
 #: /views/partials/info.handlebars
 msgid "Archives"
@@ -1709,6 +1705,10 @@ msgstr ""
 
 #: /views/profile.handlebars
 msgid "Log keys can be used by those who have them to tell which pixels you placed on previous canvases."
+msgstr ""
+
+#: /views/profile.handlebars
+msgid "You can see the public <a href=\"https://pxls.space/extra/logs/\" target=\"_blank\">Pxls Logs</a> to learn more."
 msgstr ""
 
 #: /views/profile.handlebars
@@ -2515,7 +2515,27 @@ msgid "Drag and dropped file must be a valid image."
 msgstr ""
 
 #: /public/include/uiHelper.js
+msgid "Discord name must be a string."
+msgstr ""
+
+#: /public/include/uiHelper.js
+msgid "Wait, what - how did this happened?"
+msgstr ""
+
+#: /public/include/uiHelper.js
+msgid "Discord name is not valid."
+msgstr ""
+
+#: /public/include/uiHelper.js
 msgid "Discord name updated successfully"
+msgstr ""
+
+#: /public/include/uiHelper.js
+msgid "Discord name reset successfully"
+msgstr ""
+
+#: /public/include/uiHelper.js
+msgid "Error"
 msgstr ""
 
 #: /public/include/uiHelper.js

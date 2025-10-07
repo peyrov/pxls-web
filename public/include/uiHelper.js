@@ -15,7 +15,6 @@ const uiHelper = (function() {
   const self = {
     tabId: null,
     _workerIsTabFocused: false,
-    _available: -1,
     pixelsAvailable: -1,
     maxStacked: -1,
     _alertUpdateTimer: false,
@@ -95,12 +94,44 @@ const uiHelper = (function() {
         color: '#cf0000'
       },
       {
-        name: 'Synthwave',
+        // translator: theme name
+        name: __('Synthwave'),
         location: '/themes/synthwave.css',
         color: '#1d192c'
+      },
+      {
+        // translator: theme name
+        name: __('Pink'),
+        location: '/themes/pink.css',
+        color: '#f5cdde'
+      },
+      {
+        name: 'Blurple (Discord)',
+        location: '/themes/blurple.css',
+        color: '#5865F2'
       }
     ],
-    specialChatColorClasses: ['rainbow', ['donator', 'donator--green'], ['donator', 'donator--gray'], ['donator', 'donator--synthwave'], ['donator', 'donator--ace'], ['donator', 'donator--trans'], ['donator', 'donator--bi'], ['donator', 'donator--pan'], ['donator', 'donator--nonbinary'], ['donator', 'donator--mines'], ['donator', 'donator--eggplant'], ['donator', 'donator--banana'], ['donator', 'donator--teal'], ['donator', 'donator--icy'], ['donator', 'donator--blood'], ['donator', 'donator--forest']],
+    specialChatColorClasses: [
+      'rainbow',
+      ['donator', 'donator--green'],
+      ['donator', 'donator--gray'],
+      ['donator', 'donator--synthwave'],
+      ['donator', 'donator--ace'],
+      ['donator', 'donator--trans'],
+      ['donator', 'donator--bi'],
+      ['donator', 'donator--pan'],
+      ['donator', 'donator--nonbinary'],
+      ['donator', 'donator--mines'],
+      ['donator', 'donator--eggplant'],
+      ['donator', 'donator--banana'],
+      ['donator', 'donator--teal'],
+      ['donator', 'donator--icy'],
+      ['donator', 'donator--blood'],
+      ['donator', 'donator--forest'],
+      ['donator', 'donator--purple'],
+      ['donator', 'donator--gay'],
+      ['donator', 'donator--lesbian']
+    ],
     init: function() {
       timer = require('./timer').timer;
       place = require('./place').place;
@@ -623,27 +654,54 @@ const uiHelper = (function() {
       }
     },
     handleDiscordNameSet() {
-      const name = self.elements.txtDiscordName.val();
+      let name = self.elements.txtDiscordName.val();
 
-      // TODO confirm with user
-      $.post({
-        type: 'POST',
-        url: '/setDiscordName',
-        data: {
-          discordName: name
-        },
-        success: function() {
-          modal.showText(__('Discord name updated successfully'));
-        },
-        error: function(data) {
-          const err = data.responseJSON && data.responseJSON.details ? data.responseJSON.details : data.responseText;
-          if (data.status === 200) { // seems to be caused when response body isn't json? just show whatever we can and trust server sent good enough details.
-            modal.showText(err);
-          } else {
-            modal.showText(__('Couldn\'t change discord name: ') + err);
+      if (name === null || name === undefined) {
+        self.setDiscordName('');
+        return self.handleDiscordNameSet();
+      } else if (typeof name !== 'string') return modal.showText(__('Discord name must be a string.') + '\n' + __('Wait, what - how did this happened?'));
+
+      name = name.trim();
+      self.setDiscordName(name);
+
+      // TODO: server-side real Discord username validation
+      // Discord username regex: ^[a-z0-9_\.]{2,32}$
+      // Discord display name regex: ^.{1,32}$
+      // Currently allowing both
+
+      if (name.length > 32) modal.showText(__('Discord name is not valid.'));
+      else {
+        $.post({
+          type: 'POST',
+          url: '/setDiscordName',
+          data: {
+            discordName: name
+          },
+          success: function() {
+            modal.showText(name.length > 0 ? __('Discord name updated successfully') : __('Discord name reset successfully'));
+          },
+          error: function(data) {
+            const err = data.responseJSON && data.responseJSON.details ? data.responseJSON.details : data.responseText;
+
+            if (data.status === 200) modal.showText(err); // Seems to be caused when response body isn't json? Hope that the server sent good enough details.
+            else if (/(<h1>(.*)<\/h1>)/.test(err) && /<p>(.*)<\/p>/.test(err)) {
+              modal.show(modal.buildDom(
+                crel('h2', { class: 'modal-title' }, __('Error') + ' ' + data.status),
+                crel('div',
+                  crel('h3', { style: 'margin: 0; text-align: center;' }, __('Couldn\'t change discord name: ').trim()),
+                  crel('h4', { style: 'text-align: center;' }, err.match(/<h1>(.*)<\/h1>/)[1]),
+                  crel('p', { style: 'margin: 0;' }, err.match(/<p>(.*)<\/p>/)[1])
+                ),
+                crel('p', { style: 'margin: 0; font-style: normal; text-align: left;' }, data.status + ': ' + data.statusText)
+              ));
+            } else {
+              modal.showText(__('Couldn\'t change discord name: ') + err, {
+                title: __('Error') + ' ' + data.status
+              });
+            }
           }
-        }
-      });
+        });
+      }
     },
     updateAudio: function(url) {
       try {
@@ -678,7 +736,7 @@ const uiHelper = (function() {
       ].join(', ')).css('filter', level != null ? `brightness(${level})` : '');
     },
     getAvailable() {
-      return self._available;
+      return self.pixelsAvailable;
     },
     styleElemWithChatNameColor: (elem, colorIdx, layer = 'bg') => {
       elem.classList.remove(...self.specialChatColorClasses.reduce((acc, val) => {

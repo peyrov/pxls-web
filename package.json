@@ -14,10 +14,10 @@
   "author": "Pxls Contributors",
   "license": "MIT",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
-    "express": "^4.21.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
     "express-handlebars": "^7.1.2",
-    "http-proxy-middleware": "^2.0.6",
+    "http-proxy-middleware": "^2.0.9",
     "json5": "^2.2.3",
     "pofile": "^1.1.0"
   },
@@ -25,6 +25,7 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.5",
     "@handlebars/parser": "^2.1.0",
+    "@types/jquery": "^3.5.32",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "eslint": "^8.55.0",
